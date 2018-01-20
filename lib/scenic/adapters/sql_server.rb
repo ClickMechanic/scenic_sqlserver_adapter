@@ -13,6 +13,15 @@ module Scenic
       def create_view(name, sql_definition)
         execute "CREATE VIEW #{quote_table_name(name)} AS #{sql_definition};"
       end
+
+      def update_view(name, sql)
+        drop_view name
+        create_view name, sql
+      end
+
+      def drop_view(name)
+        execute "DROP VIEW IF EXISTS #{quote_table_name(name)};"
+      end
       
       private
       

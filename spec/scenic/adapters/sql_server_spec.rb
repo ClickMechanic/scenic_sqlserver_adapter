@@ -26,15 +26,34 @@ module Scenic
         end
       end
       
-      describe 'create_view' do
+      describe 'view operations' do
         before do
           allow(connection).to receive(:quote_table_name) { |name| "[#{name}]" }
         end
         
-        it 'executes CREATE VIEW SQL on the connection' do
-          expect(connection).to receive(:execute).with('CREATE VIEW [to_a_kill] AS SELECT phoenix FROM the_flame;')
-          subject.create_view('to_a_kill', 'SELECT phoenix FROM the_flame')
+        describe 'create_view' do  
+          it 'executes CREATE VIEW SQL on the connection' do
+            expect(connection).to receive(:execute).with('CREATE VIEW [to_a_kill] AS SELECT phoenix FROM the_flame;')
+            subject.create_view('to_a_kill', 'SELECT phoenix FROM the_flame')
+          end
         end
+        
+        describe 'drop_view' do  
+          it 'executes DROP VIEW SQL on the connection' do
+            expect(connection).to receive(:execute).with('DROP VIEW IF EXISTS [to_a_kill];')
+            subject.drop_view('to_a_kill')
+          end
+        end
+        
+        describe 'update_view' do  
+          it 'drops and recreates the view' do
+            allow(connection).to receive(:execute)
+            expect(subject).to receive(:drop_view).with('to_a_kill')
+            expect(subject).to receive(:create_view).with('to_a_kill', 'SELECT fatal_kiss FROM all_we_need')
+            subject.update_view('to_a_kill', 'SELECT fatal_kiss FROM all_we_need')
+          end
+        end
+        
       end
     end
     
