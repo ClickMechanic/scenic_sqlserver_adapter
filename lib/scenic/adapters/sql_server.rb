@@ -23,6 +23,24 @@ module Scenic
         execute "DROP VIEW IF EXISTS #{quote_table_name(name)};"
       end
       
+      class NotSupportedError < StandardError
+        def initialize
+          super 'SQL Server does not support this feature'
+        end
+      end
+      
+      %i[
+        replace_view
+        create_materialized_view
+        refresh_materialized_view
+        update_materialized_view
+        drop_materialized_view
+      ].each do |operation|
+        define_method(operation) do |*args|
+          raise NotSupportedError
+        end
+      end
+      
       private
       
       attr_reader :connectable

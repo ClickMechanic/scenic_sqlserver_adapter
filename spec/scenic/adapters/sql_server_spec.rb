@@ -53,7 +53,30 @@ module Scenic
             subject.update_view('to_a_kill', 'SELECT fatal_kiss FROM all_we_need')
           end
         end
+      end
+      
+      describe 'unsupported operations' do
+        let(:name) { 'feel_the_chill' }
+        let(:sql) { 'SELECT fatal_kiss FROM all_we_need' }
         
+        %i[
+          replace_view
+          create_materialized_view
+          update_materialized_view
+        ].each do |operation|
+          it "does not support #{operation}" do
+            expect{subject.send(operation, name, sql)}.to raise_error SqlServer::NotSupportedError
+          end
+        end
+        
+        %i[
+          refresh_materialized_view
+          drop_materialized_view
+        ].each do |operation|
+          it "does not support #{operation}" do
+            expect{subject.send(operation ,name)}.to raise_error SqlServer::NotSupportedError
+          end
+        end
       end
     end
     
