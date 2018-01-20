@@ -1,8 +1,10 @@
 # ScenicSqlserverAdapter
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/scenic_sqlserver_adapter`. To experiment with that code, run `bin/console` for an interactive prompt.
+SQL Server adapter for Thoughtbot's [Scenic](https://github.com/thoughtbot/scenic) gem.
 
-TODO: Delete this and the text above, and describe your gem
+SQL Server does not support materialized views or the `CREATE OR REPLACE` statement.  The following methods will raise a `Scenic::Adapters::SqlServer::NotSupportedError`:
+
+`replace_view`, `create_materialized_view`, `refresh_materialized_view`, `update_materialized_view`, `drop_materialized_view`.
 
 ## Installation
 
@@ -22,7 +24,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Configure Scenic to use this adapter:
+
+```
+# e.g. config/initializers/scenic.rb
+
+Scenic.configure do |config|
+  config.database = Scenic::Adapters::SqlServer.new
+end
+```
 
 ## Development
 
@@ -32,7 +42,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/scenic_sqlserver_adapter. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ClickMechanic/scenic_sqlserver_adapter. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
