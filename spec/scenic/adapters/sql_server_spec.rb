@@ -17,12 +17,23 @@ module Scenic
         end
       end
       
-      describe :views do
+      describe 'views' do
         it 'returns all from an instance of SqlServer::Views with the connection' do
           all = double :all
           views = double :views, all: all
           allow(SqlServer::Views).to receive(:new).with(connection).and_return(views)
           expect(subject.views).to be all
+        end
+      end
+      
+      describe 'create_view' do
+        before do
+          allow(connection).to receive(:quote_table_name) { |name| "[#{name}]" }
+        end
+        
+        it 'executes CREATE VIEW SQL on the connection' do
+          expect(connection).to receive(:execute).with('CREATE VIEW [to_a_kill] AS SELECT phoenix FROM the_flame;')
+          subject.create_view('to_a_kill', 'SELECT phoenix FROM the_flame')
         end
       end
     end
