@@ -20,7 +20,7 @@ module Scenic
       end
 
       def drop_view(name)
-        execute "DROP VIEW IF EXISTS #{quote_table_name(name)};"
+        execute "IF OBJECT_ID('#{quote_table_name(name)}') IS NOT NULL DROP VIEW #{quote_table_name(name)};"
       end
       
       class NotSupportedError < StandardError
