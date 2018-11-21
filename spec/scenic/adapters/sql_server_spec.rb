@@ -40,7 +40,7 @@ module Scenic
         
         describe 'drop_view' do  
           it 'executes DROP VIEW SQL on the connection' do
-            expect(connection).to receive(:execute).with('DROP VIEW IF EXISTS [to_a_kill];')
+            expect(connection).to receive(:execute).with("IF OBJECT_ID('[to_a_kill]') IS NOT NULL DROP VIEW [to_a_kill];")
             subject.drop_view('to_a_kill')
           end
         end
