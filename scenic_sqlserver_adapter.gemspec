@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ben Forrest"]
   spec.email         = ["ben@clickmechanic.com"]
 
-  spec.summary       = "SQL Server adapter for Thoughtbot's Scenic gem"  
+  spec.summary       = "SQL Server adapter for Thoughtbot's Scenic gem"
   spec.homepage      = "https://github.com/ClickMechanic/scenic_sqlserver_adapter"
   spec.license       = "MIT"
 
@@ -25,10 +25,10 @@ Gem::Specification.new do |spec|
     f.match(%r{^(test|spec|features)/})
   end
   spec.require_paths = ["lib"]
-  
+
   spec.add_dependency "scenic", "~> 1.4"
-  spec.add_dependency "activerecord", ">= 4.0"
-  
+  spec.add_dependency "activerecord", ">= 4.0", "< 8"
+
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
